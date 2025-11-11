@@ -7,11 +7,13 @@ class BookStoreInvetory:
             self.inventory[title] += quantity
         else:
             self.inventory[title] = quantity
+
     def checkQuantity(self, title):
         if title in self.inventory:
             return self.inventory.get(title, 0)
         else:
             return 0
+
     def removeBook(self, title, quantity):
         if title in self.inventory and self.inventory[title] >= quantity:
             self.inventory[title] -= quantity
@@ -20,23 +22,39 @@ class BookStoreInvetory:
             return True
         return False
         
+    def listInventory(self):
+        print("\n--- Inventário Atual da Livraria ---")
+        if not self.inventory:
+            print("O inventário está vazio.")
+            return
+        for title, quantity in self.inventory.items():
+            print(f"Título: {title} | Quantidade: {quantity}")
+        print("------------------------------------\n")
+
+    # --- MÉTODO recommendBooks---
     def recommendBooks(self, description):
-       # Esta é uma recomendação simulada baseada em palavras-chave na descrição 
-        keywords = description.lower().split()
-        # Dicionário
+        desc_lower = description.lower()
+        
         recomendations = {
-           'análise avançada': 'Os elementos da aprendizagem estatística',
-           'aventura': 'O Hobbit de J.R.R. Tolkien',
-           'mistério': 'As Aventuras de Sherlock Holmes de Arthur Conan Doyle',
-           'romance': 'Orgulho e Preconceito de Jane Austen',
-           'ficção científica': 'Duna de Frank Herbert',
-           'fantasia': 'Harry Potter e a Pedra Filosofal de J.K. Rowling',
-           'história': 'Sapiens: Uma Breve História da Humanidade por Yuval Noah Harari'
+           'aventura': ['O Hobbit de J.R.R. Tolkien', 'A Ilha do Tesouro'],
+           'mistério': ['As Aventuras de Sherlock Holmes', 'O Código Da Vinci'],
+           'romance': ['Orgulho e Preconceito de Jane Austen'],
+           'ficção científica': ['Duna de Frank Herbert', 'Fundação de Isaac Asimov'],
+           'fantasia': ['Harry Potter e a Pedra Filosofal', 'O Senhor dos Anéis', 'O Nome do Vento'],
+           'história': ['Sapiens: Uma Breve História da Humanidade']
        }
-        for keyword in keywords:
-            if keyword in recomendations:
-                return recomendations[keyword]
-        return "Sem recomendações para você no momento."
+       
+        results = []
+       
+        for key, books in recomendations.items():
+            if key in desc_lower:
+                results.extend(books) 
+       
+        if not results:
+            return "Sem recomendações para você no momento."
+       
+        return list(set(results))
+# ----------------------------------------
 
 if __name__ == "__main__":
     bookstore = BookStoreInvetory()
@@ -47,9 +65,12 @@ if __name__ == "__main__":
     bookstore.addBook("Harry Potter e a Pedra Filosofal", 4)
     bookstore.addBook("As Aventuras de Sherlock Holmes", 3)
     
-    recomendation = bookstore.recommendBooks("Este livro é uma aventura sobre um hobbit que encontra um anel mágico.")
-    print("Recomendação: " + recomendation)
-    hobbitQuantity = bookstore.checkQuantity("O Hobbit")
-    print("Quantidade de O Hobbit: " + str(hobbitQuantity))
-    bookstore.removeBook("O Hobbit", 1)
-    print(hobbitQuantity, recomendation, bookstore.checkQuantity("O Hobbit"))
+    # Teste 1: Busca por ficção científica
+    # recomendations_ficcaoCientifica = bookstore.recommendBooks("Este livro é de ficção científica.")
+    # print("Recomendações (Ficção Científica):")
+    # print(recomendations_ficcaoCientifica) 
+
+    # Teste 2: Busca por múltiplas palavras-chave
+    recomendations = bookstore.recommendBooks("Quero uma aventura de fantasia.")
+    print("Recomendações:")
+    print(recomendations)
