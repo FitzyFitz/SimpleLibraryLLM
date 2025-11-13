@@ -7,9 +7,7 @@ class BookStoreInvetory:
         self.json_file = json_file # Armazena o nome do arquivo para gravação
         self.recommendations_data = self._load_recommendations()
     
-    # ----------------------------------------------------
-    # MÉTODOS DE CARREGAMENTO E GRAVAÇÃO DE JSON (I/O)
-    # ----------------------------------------------------
+    # MÉTODOS DE CARREGAMENTO E GRAVAÇÃO DE JSON
     def _load_recommendations(self):
         if not os.path.exists(self.json_file):
             print(f"ERRO: Arquivo de recomendações '{self.json_file}' não encontrado.")
@@ -22,7 +20,7 @@ class BookStoreInvetory:
             print(f"ERRO: O arquivo '{self.json_file}' está mal formatado (JSON inválido).")
             return {}
 
-    # NOVO MÉTODO PRIVADO: Persiste as alterações no arquivo JSON
+    #MÉTODO PRIVADO: Persiste as alterações no arquivo JSON
     def _save_recommendations(self):
         try:
             with open(self.json_file, 'w', encoding='utf-8') as f:
@@ -34,10 +32,7 @@ class BookStoreInvetory:
             print(f"ERRO: Não foi possível salvar o arquivo '{self.json_file}'.")
             return False
 
-    # ----------------------------------------------------
-    # MÉTODOS CRUD NO JSON (Recomendação)
-    # ----------------------------------------------------
-
+    # MÉTODOS CRUD NO JSON
     def add_genre_recommendation(self, genre, book_title):
         """Adiciona um livro a um gênero (ou cria o gênero se não existir)."""
         genre = genre.lower()
@@ -93,10 +88,7 @@ class BookStoreInvetory:
         
         return False
 
-    # ----------------------------------------------------
     # MÉTODOS EXISTENTES (Inventário e Recomendação)
-    # ----------------------------------------------------
-
     def addBook(self, title, quantity):
         if title in self.inventory:
             self.inventory[title] += quantity
@@ -142,35 +134,27 @@ class BookStoreInvetory:
 
 if __name__ == "__main__":
     
-    # Certifique-se de que o recommendations.json existe antes de rodar!
     bookstore = BookStoreInvetory()
     
     print("\n\n--- TESTE CRUD NO CATÁLOGO JSON ---")
     
-    # 1. CREATE (Adicionar um novo livro e um novo gênero)
-    #print("1. Adicionando 'A Desolação de Smaug' (Fantasia):", 
-    #      bookstore.add_genre_recommendation("fantasia", "A Desolação de Smaug"))
-    # print("1. Criando novo gênero 'Poesia' e adicionando 'Ode Marítima':", 
-    #      bookstore.add_genre_recommendation("poesia", "Ode Marítima de Álvaro de Campos"))
+    #cREATE (Adicionar um novo livro e um novo gênero)
+    #bookstore.add_genre_recommendation("fantasia", "A Desolação de Smaug"))
 
-    # 2. UPDATE (Atualizar um título)
-    # print("2. Atualizando 'O Nome do Vento' para 'O Medo do Sábio' (Fantasia):", 
-    #      bookstore.update_recommendation("fantasia", "O Nome do Vento", "O Medo do Sábio"))
+    #UPDATE (Atualizar um título)
+    #bookstore.update_recommendation("fantasia", "O Nome do Vento", "O Medo do Sábio"))
 
-    # 3. DELETE (Deletar um livro específico)
-    # print("3. Deletando 'O Código Da Vinci' (Mistério):", 
-    #      bookstore.delete_recommendation("mistério", "O Código Da Vinci"))
+    #DELETE (Deletar um livro específico)
+    #bookstore.delete_recommendation("mistério", "O Código Da Vinci"))
           
-    # 4. DELETE (Deletar um gênero inteiro)
-    # print("4. Deletando o gênero 'Poesia' inteiro:", 
-    #      bookstore.delete_recommendation("poesia")) 
+    #DELETE (Deletar um gênero inteiro)
+    #bookstore.delete_recommendation("poesia")) 
 
-    # print("\n>>> Após o CRUD, o arquivo 'recommendations.json' foi atualizado. Verifique o arquivo.")
     # print("Chaves de gênero restantes:", list(bookstore.recommendations_data.keys()))
 
     # bookstore.add_genre_recommendation("terror cósmico", " Chamado de Cthulhu")
     # bookstore.update_recommendation("terror cósmico", " Chamado de Cthulhu", "O  Chamado de Cthulhu")
     
-    print("\n--- TESTE DE RECOMENDAÇÃO ---")
-    recomendations = bookstore.recommendBooks("Quero um livro de terror cósmico.")
+    print("\n--- RECOMENDAÇÃO ---")
+    recomendations = bookstore.recommendBooks("Quero um livro de terror cósmico ou aventura.")
     print("Recomendações:", recomendations)
